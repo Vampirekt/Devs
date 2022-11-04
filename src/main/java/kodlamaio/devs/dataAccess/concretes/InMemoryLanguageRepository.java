@@ -1,3 +1,4 @@
+/*
 package kodlamaio.devs.dataAccess.concretes;
 
 import kodlamaio.devs.dataAccess.abstracts.LanguageRepository;
@@ -53,3 +54,4 @@ public class InMemoryLanguageRepository implements LanguageRepository {
 
     }
 }
+*/

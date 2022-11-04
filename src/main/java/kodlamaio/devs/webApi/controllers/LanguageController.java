@@ -21,7 +21,7 @@ public class LanguageController {
     public Language getbyid(@PathVariable(name="id") int id){
         return languageService.getById(id);
     }
-    @PostMapping
+    @PostMapping("/add")
     public void add(@RequestBody Language language) throws Exception {
         languageService.add(language);
     }

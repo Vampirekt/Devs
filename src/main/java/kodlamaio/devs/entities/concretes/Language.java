@@ -1,30 +1,27 @@
 package kodlamaio.devs.entities.concretes;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ValueGenerationType;
+
+import javax.persistence.*;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Entity
+@Table(name = "languages")
 public class Language {
-    public Language() {
-    }
 
-    public Language(int id, String name) {
-        this.id = id;
-        this.name = name;
-    }
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "language_id")
     private int id;
+    @Column(name = "language_name")
     private String name;
 
-    public int getId() {
-        return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
 
-    public String getName() {
-        return name;
-    }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-}

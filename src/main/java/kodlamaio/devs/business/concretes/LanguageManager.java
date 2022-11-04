@@ -17,12 +17,12 @@ public class LanguageManager implements LanguageService {
 
     @Override
     public List<Language> getAll() {
-        return languageRepository.getAll();
+        return languageRepository.findAll();
     }
 
     @Override
     public Language getById(int id) {
-        return languageRepository.getById(id);
+        return languageRepository.findById(id).get();
     }
 
     @Override
@@ -35,7 +35,7 @@ public class LanguageManager implements LanguageService {
 
 
 
-        languageRepository.add(language);
+        languageRepository.save(language);
 
     }
 
@@ -46,7 +46,7 @@ public class LanguageManager implements LanguageService {
 
         }
 
-        languageRepository.update(language,id);
+        languageRepository.save(language);
 
     }
 
@@ -55,7 +55,7 @@ public class LanguageManager implements LanguageService {
         if(!isIdExist(id)){
             throw new Exception("id bulunamadi");
         }
-        languageRepository.delete(id);
+        languageRepository.deleteById(id);
 
     }
     private boolean isNameValid(String name) throws Exception {
