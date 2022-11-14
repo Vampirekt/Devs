@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 public interface LanguageRepository extends JpaRepository<Language,Integer> {
+    boolean existsByName(String name);
 }

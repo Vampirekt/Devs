@@ -1,6 +1,8 @@
 package kodlamaio.devs.webApi.controllers;
 
 import kodlamaio.devs.business.abstracts.LanguageService;
+import kodlamaio.devs.dto.requests.LanguageRequest;
+import kodlamaio.devs.dto.responses.LanguageResponse;
 import kodlamaio.devs.entities.concretes.Language;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,20 +16,20 @@ public class LanguageController {
         this.languageService = languageService;
     }
     @GetMapping("/getall")
-    public List<Language> getall(){
+    public List<LanguageResponse> getall(){
         return languageService.getAll();
     }
     @GetMapping("/{id}")
-    public Language getbyid(@PathVariable(name="id") int id){
+    public LanguageResponse getbyid(@PathVariable(name="id") int id){
         return languageService.getById(id);
     }
     @PostMapping("/add")
-    public void add(@RequestBody Language language) throws Exception {
-        languageService.add(language);
+    public void add(@RequestBody LanguageRequest languageRequest) throws Exception {
+        languageService.add(languageRequest);
     }
     @PutMapping("/{id}")
-    public void update(@RequestBody Language language, int id) throws Exception{
-        languageService.update(language,id);
+    public void update(@RequestBody LanguageRequest languageRequest, @PathVariable int id) throws Exception{
+        languageService.update(languageRequest,id);
     }
     @DeleteMapping("/{id}")
     public void delete(@PathVariable int id) throws Exception{

@@ -2,6 +2,8 @@ package kodlamaio.devs.business.concretes;
 
 import kodlamaio.devs.business.abstracts.LanguageService;
 import kodlamaio.devs.dataAccess.abstracts.LanguageRepository;
+import kodlamaio.devs.dto.requests.LanguageRequest;
+import kodlamaio.devs.dto.responses.LanguageResponse;
 import kodlamaio.devs.entities.concretes.Language;
 import org.springframework.stereotype.Service;
 
@@ -16,43 +18,47 @@ public class LanguageManager implements LanguageService {
     }
 
     @Override
-    public List<Language> getAll() {
-        return languageRepository.findAll();
+    public List<LanguageResponse> getAll() {
+        List<Language> languages =languageRepository.findAll();
+        return languages.stream()
+                .map(language -> new LanguageResponse(language.getId(),language.getName()))
+                .toList();
+
     }
 
     @Override
-    public Language getById(int id) {
-        return languageRepository.findById(id).get();
+    public LanguageResponse getById(int id) {
+        Language language = languageRepository.findById(id).get();
+        return new LanguageResponse(language.getId(),language.getName());
     }
 
     @Override
-    public void add(Language language) throws Exception {
-        isNameValid(language.getName());
-        if (isIdExist(language.getId())){
-            throw new Exception("id tekrar edemez");
-
+    public void add(LanguageRequest languageRequest) throws Exception {
+        isNameValid(languageRequest.getName());
+        if(this.languageRepository.existsByName(languageRequest.getName())){
+            throw new Exception("aynı isimde kayıt var");
         }
-
-
-
+        Language language = new Language();
+        language.setName(languageRequest.getName());
         languageRepository.save(language);
 
     }
 
     @Override
-    public void update(Language language, int id) throws Exception {
-        if (!isIdExist(id)) {
+    public void update(LanguageRequest languageRequest, int id) throws Exception {
+        if (!this.languageRepository.existsById(id)) {
             throw new Exception("id bulunamadi");
 
         }
-
+        Language language = this.languageRepository.findById(id).get();
+        language.setName(languageRequest.getName());
         languageRepository.save(language);
 
     }
 
     @Override
     public void delete(int id) throws Exception {
-        if(!isIdExist(id)){
+        if(!this.languageRepository.existsById(id)){
             throw new Exception("id bulunamadi");
         }
         languageRepository.deleteById(id);
@@ -63,21 +69,16 @@ public class LanguageManager implements LanguageService {
             throw new Exception("isim bos olamaz");
 
         }
-        for (Language language:getAll()
-             ) {if (language.getName().equalsIgnoreCase(name)){
-                 throw new Exception("isim tekrar edemez");
-        }
-
-        }
         return true;
-    }
-    private boolean isIdExist(int id){
-        for (Language language:getAll()
-             ) {if (language.getId()==id) {
-                 return true;
-        }
 
-        }
-    return false;
     }
+//    private boolean isIdExist(int id){
+//        for (Language language:getAll()
+//             ) {if (language.getId()==id) {
+//                 return true;
+//        }
+//
+//        }
+//    return false;
+//    }
 }
